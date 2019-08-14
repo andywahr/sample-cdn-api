@@ -9,10 +9,8 @@ using System.Web.Http.Filters;
 namespace sample_cdn_api.Attributes
 {
     [System.AttributeUsage(System.AttributeTargets.Class | System.AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
-    public class CachabilityAttribute : ActionFilterAttribute
+    public class CacheabilityAttribute : ActionFilterAttribute
     {
-
-
         public bool Cache { get; set; }
         public int CacheDurationInSeconds { get; set; }
 

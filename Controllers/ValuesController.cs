@@ -16,7 +16,7 @@ namespace sample_cdn_api.Controllers
     {
         [HttpGet]
         [Route("cacheableget")]
-        [Cachability(Cache = true, CacheDurationInSeconds = 10 * 60)]
+        [Cacheability(Cache = true, CacheDurationInSeconds = 10 * 60)]
         public IEnumerable<string> CacheableGet()
         {
             return new string[] { "value1", "value2" };
@@ -24,7 +24,7 @@ namespace sample_cdn_api.Controllers
 
         [HttpGet]
         [Route("noncacheableget")]
-        [Cachability(Cache = false)]
+        [Cacheability(Cache = false)]
         public IEnumerable<string> NotCacheableGet()
         {
             return new string[] { "value1", "value2" };
