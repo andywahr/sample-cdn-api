@@ -44,6 +44,7 @@ namespace sample_cdn_api.Controllers
 
             if (!Task.WaitAll(new Task[] { serviceTask }, 2000))
             {
+                cts.Cancel();
                 System.Diagnostics.Trace.TraceInformation("ResilentExternalCall:  From Cache");
                 return await Task.FromResult(CacheHelper.Get<ValueModel>(id));
             }
