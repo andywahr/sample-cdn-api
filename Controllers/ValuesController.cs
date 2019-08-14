@@ -39,19 +39,21 @@ namespace sample_cdn_api.Controllers
         public async Task<ValueModel> ResilentExternalCall(string id)
         {
             ValueServices service = new ValueServices();
-            CancellationTokenSource cts = new CancellationTokenSource();
-            Task<ValueModel> serviceTask = service.GetValue(id, cts.Token);
+            using (CancellationTokenSource cts = new CancellationTokenSource())
+            {
+                Task<ValueModel> serviceTask = service.GetValue(id, cts.Token);
 
-            if (!Task.WaitAll(new Task[] { serviceTask }, 2000))
-            {
-                cts.Cancel();
-                System.Diagnostics.Trace.TraceInformation("ResilentExternalCall:  From Cache");
-                return await Task.FromResult(CacheHelper.Get<ValueModel>(id));
-            }
-            else
-            {
-                System.Diagnostics.Trace.TraceInformation("ResilentExternalCall:  From Live");
-                return await Task.FromResult(serviceTask.Result);
+                if (!Task.WaitAll(new Task[] { serviceTask }, 2000))
+                {
+                    cts.Cancel();
+                    System.Diagnostics.Trace.TraceInformation("ResilentExternalCall:  From Cache");
+                    return await Task.FromResult(CacheHelper.Get<ValueModel>(id));
+                }
+                else
+                {
+                    System.Diagnostics.Trace.TraceInformation("ResilentExternalCall:  From Live");
+                    return await Task.FromResult(serviceTask.Result);
+                }
             }
         }
     }
