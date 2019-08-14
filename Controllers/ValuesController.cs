@@ -1,10 +1,5 @@
-﻿using CacheCow.Server.WebApi;
-using sample_cdn_api.Attributes;
-using System;
+﻿using sample_cdn_api.Attributes;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace sample_cdn_api.Controllers
@@ -19,6 +14,7 @@ namespace sample_cdn_api.Controllers
         [Cacheability(Cache = true, CacheDurationInSeconds = 10 * 60)]
         public IEnumerable<string> CacheableGet()
         {
+            System.Diagnostics.Trace.TraceInformation("Hit Cacheable");
             return new string[] { "value1", "value2" };
         }
 
@@ -27,6 +23,7 @@ namespace sample_cdn_api.Controllers
         [Cacheability(Cache = false)]
         public IEnumerable<string> NotCacheableGet()
         {
+            System.Diagnostics.Trace.TraceInformation("Hit Not Cacheable");
             return new string[] { "value1", "value2" };
         }
     }
