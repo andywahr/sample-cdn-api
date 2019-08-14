@@ -33,8 +33,9 @@ namespace sample_cdn_api.Attributes
             }
             else
             {
+                actionExecutedContext.Response.Content.Headers.Expires = DateTimeOffset.UtcNow.AddSeconds(CacheDurationInSeconds);
+                actionExecutedContext.Response.Headers.CacheControl = new System.Net.Http.Headers.CacheControlHeaderValue();
                 actionExecutedContext.Response.Headers.CacheControl.MaxAge = TimeSpan.FromSeconds(CacheDurationInSeconds);
-                actionExecutedContext.Response.Headers.CacheControl.Private = false;
                 actionExecutedContext.Response.Headers.CacheControl.Public = true;
             }
 
