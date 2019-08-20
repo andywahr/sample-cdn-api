@@ -7,6 +7,10 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Linq;
+using System.Data.Entity;
+using System.Data.SqlClient;
+using Dapper;
 
 namespace sample_cdn_api.Controllers
 {
@@ -54,6 +58,52 @@ namespace sample_cdn_api.Controllers
                     System.Diagnostics.Trace.TraceInformation("ResilentExternalCall:  From Live");
                     return await Task.FromResult(serviceTask.Result);
                 }
+            }
+        }
+
+        /*
+          https://docs.microsoft.com/en-us/azure/app-service/app-service-web-tutorial-connect-msi
+          
+            Magic is:
+            - Install NuGet:  Microsoft.Azure.Services.AppAuthentication
+            - In the connection string, no username and password, just: 
+            
+                Authentication=Active Directory Interactive;UID=<some name>
+        */
+
+        [HttpGet]
+        [Route("getvaluesfromef")]
+        [Cacheability(Cache = false)]
+        public async Task<IEnumerable<string>> GetValuesFromEF()
+        {
+            using (authtestEntities context = new authtestEntities())
+            {
+                return (await context.Values.ToListAsync()).Select(v => v.Value1);
+            }
+        }
+
+        /*
+            https://docs.microsoft.com/en-us/azure/app-service/app-service-web-tutorial-connect-msi
+          
+            Magic is:
+            - Install NuGet:  Microsoft.Azure.Services.AppAuthentication
+            - In the connection string, no username and password, just: 
+            
+                Authentication=Active Directory Interactive;UID=<some name>
+        */
+
+        [HttpGet]
+        [Route("getvaluesfromdapper")]
+        [Cacheability(Cache = false)]
+        public async Task<IEnumerable<string>> GetValuesFromDapper()
+        {
+            string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["authtestEntitiesSQL"].ConnectionString;
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                await connection.OpenAsync();
+                IEnumerable<SQLValue> values = await connection.QueryAsync<SQLValue>("SELECT Id, [Value] FROM [VALUES]");
+                return values.Select(v => v.Value);
+
             }
         }
     }

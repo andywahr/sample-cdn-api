@@ -14,6 +14,12 @@ namespace sample_cdn_api.Attributes
         public bool Cache { get; set; }
         public int CacheDurationInSeconds { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="actionExecutedContext"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public override async Task OnActionExecutedAsync(HttpActionExecutedContext actionExecutedContext, CancellationToken cancellationToken)
         {
             actionExecutedContext.Response.Headers.CacheControl = new System.Net.Http.Headers.CacheControlHeaderValue();
