@@ -11,6 +11,11 @@ using System.Linq;
 using System.Data.Entity;
 using System.Data.SqlClient;
 using Dapper;
+using Microsoft.Azure.Storage.Blob;
+using Microsoft.Azure.Services.AppAuthentication;
+using Microsoft.Azure.Storage.Auth;
+using System.Configuration;
+using System.Collections;
 
 namespace sample_cdn_api.Controllers
 {
@@ -105,6 +110,33 @@ namespace sample_cdn_api.Controllers
                 return values.Select(v => v.Value);
 
             }
+        }
+
+        [HttpGet]
+        [Route("getrescentorders")]
+        [Cacheability(Cache = false)]
+        public async Task<IHttpActionResult> GetRescentOrders(CancellationToken cancellationToken)
+        {
+            string StorageAccountName = ConfigurationManager.AppSettings["PreComputeStorageConnectionString"];
+
+            string userId = this.User?.Identity.Name; // DONT USE NAME FOR REAL, use some kind of unique identifier
+
+            AzureServiceTokenProvider azureServiceTokenProvider = new AzureServiceTokenProvider();
+            string token =  await azureServiceTokenProvider.GetAccessTokenAsync("https://storage.azure.com/");
+            TokenCredential tokenCredential = new TokenCredential(token);
+
+            StorageCredentials storageCredentials = new StorageCredentials(tokenCredential);
+
+            var blob = new CloudBlockBlob(new Uri($"https://{StorageAccountName}.blob.core.windows.net/rescent-orders/{userId}.json"), storageCredentials);
+
+            if ( !await blob.ExistsAsync() )
+            {
+                return NotFound();
+            }
+
+            string rescentOrdersJson = await blob.DownloadTextAsync(cancellationToken);
+
+            return Ok(Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Order>>(rescentOrdersJson));
         }
     }
 }

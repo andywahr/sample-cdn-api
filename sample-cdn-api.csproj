@@ -138,6 +138,7 @@
     </Compile>
     <Compile Include="Models\LocationStatus.cs" />
     <Compile Include="Models\Location.cs" />
+    <Compile Include="Models\Order.cs" />
     <Compile Include="Models\SQLValue.cs" />
     <Compile Include="Models\ValueModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
