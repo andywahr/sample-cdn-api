@@ -117,7 +117,7 @@ namespace sample_cdn_api.Controllers
         [Cacheability(Cache = false)]
         public async Task<IHttpActionResult> GetRescentOrders(CancellationToken cancellationToken)
         {
-            string StorageAccountName = ConfigurationManager.AppSettings["PreComputeStorageConnectionString"];
+            string StorageAccountName = ConfigurationManager.AppSettings["PreComputeStorageName"];
 
             string userId = this.User?.Identity.Name; // DONT USE NAME FOR REAL, use some kind of unique identifier
 
