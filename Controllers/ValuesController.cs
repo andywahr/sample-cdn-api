@@ -122,7 +122,7 @@ namespace sample_cdn_api.Controllers
             string userId = this.User?.Identity.Name; // DONT USE NAME FOR REAL, use some kind of unique identifier
 
             AzureServiceTokenProvider azureServiceTokenProvider = new AzureServiceTokenProvider();
-            string token =  await azureServiceTokenProvider.GetAccessTokenAsync("https://storage.azure.com/");
+            string token =  await azureServiceTokenProvider.GetAccessTokenAsync($"https://{StorageAccountName}.blob.core.windows.net");
             TokenCredential tokenCredential = new TokenCredential(token);
 
             StorageCredentials storageCredentials = new StorageCredentials(tokenCredential);
