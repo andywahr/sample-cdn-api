@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.28803.156
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sample-cdn-api", "sample-cdn-api.csproj", "{0662E6DB-8DF7-461A-9FA0-895F34C26A7D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sample-cdn-func", "sample-cdn-func\sample-cdn-func.csproj", "{983F2579-4852-4AA7-843C-DEB57302A9D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "sample-cdn-func", "sample-cdn-func\sample-cdn-func.csproj", "{983F2579-4852-4AA7-843C-DEB57302A9D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sample-cdn-api-dotnetcore", "sample-cdn-api-dotnetcore\sample-cdn-api-dotnetcore\sample-cdn-api-dotnetcore.csproj", "{B86A35C2-706F-4927-9DBA-56B8DE69D577}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{983F2579-4852-4AA7-843C-DEB57302A9D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{983F2579-4852-4AA7-843C-DEB57302A9D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{983F2579-4852-4AA7-843C-DEB57302A9D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B86A35C2-706F-4927-9DBA-56B8DE69D577}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B86A35C2-706F-4927-9DBA-56B8DE69D577}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B86A35C2-706F-4927-9DBA-56B8DE69D577}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B86A35C2-706F-4927-9DBA-56B8DE69D577}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
